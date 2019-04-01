@@ -41,7 +41,7 @@ class Build < ApplicationRecord
     details = client.job.get_build_details(job.name, build_number)
     self.duration = "#{details['duration']} milliseconds"
     self.passed = details['result'] == 'SUCCESS'
-    details['runs'].each do |run|
+    details['runs']&.each do |run|
       run_details = client.api_get_request(run['url'])
       ran_at = Time.at(run_details['timestamp'] / 1000.0).utc.to_datetime
       BuildResult.unscoped.where(build: self, url: run['url']).first_or_create! do |result|

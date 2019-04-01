@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "eadefbe5148785ad5ab64b87852ce467386592392a925207c928c3ba44442ee3",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/build_results_controller.rb",
+      "line": 24,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(BuildResult.new(job_matrix_params).build.job.job_matrix, :notice => \"Build was successfully created.\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BuildResultsController",
+        "method": "create"
+      },
+      "user_input": "BuildResult.new(job_matrix_params).build.job.job_matrix",
+      "confidence": "High",
+      "note": "This redirect only comes from non user controller data'"
+    }
+  ],
+  "updated": "2019-04-01 15:24:25 +0200",
+  "brakeman_version": "4.5.0"
+}

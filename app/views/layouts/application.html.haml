@@ -1,0 +1,14 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "UTF-8"}/
+    %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %title= Rails.application.class.parent_name
+    = csrf_meta_tags
+    = action_cable_meta_tag
+    = stylesheet_pack_tag 'application', media: 'all'
+  %body
+    = yield
+    = javascript_include_tag 'application'
+    = javascript_pack_tag 'application'

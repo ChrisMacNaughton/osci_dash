@@ -1,0 +1,48 @@
+%p
+  %b Name:
+  = @job_matrix.name
+
+
+%table.table.table-sm.table-bordered
+  %thead
+    %tr
+      %td Spec
+      - Rails.application.config_for(:uosci)['supported_combinations'].each do |ubuntu, openstacks|
+        - openstacks.each do |openstack|
+          %td #{ubuntu}-#{openstack}
+
+  %tbody
+    - for job in @job_matrix.jobs
+      %tr
+        %td{class: job.passing? ? "table-success" : "table-danger"}= link_to job.name, job
+        - #"http://#{Rails.application.config_for(:uosci)['path']}:8080/job/#{job.name}/"
+        - Rails.application.config_for(:uosci)['supported_combinations'].each do |ubuntu, openstacks|
+          - openstacks.each do |openstack|
+            - build = job.latest_build
+            - if build
+              - this_build = build.build_results.find_by(ubuntu_release: ubuntu, openstack_release: openstack)
+              - if this_build
+                %td{class: this_build.passed ? "table-success" : "table-danger"}
+                  - if user_signed_in?
+                    .float-right
+                      = link_to "+",  new_build_result_path(build: build, ubuntu: ubuntu, openstack: openstack), class: 'btn btn-info'
+                  =link_to "#{time_ago_in_words this_build.ran_at} ago", this_build.url
+                  %br
+                  = distance_of_time_in_words this_build.duration
+              - else
+                %td{class: 'table-active'}
+                  - if user_signed_in?
+                    .float-right
+                      = link_to "+",  new_build_result_path(build: build, ubuntu: ubuntu, openstack: openstack), class: 'btn btn-info'
+                  N/A
+            - else
+              %td{class: 'table-active'}
+                - if user_signed_in?
+                  .float-right
+                    = link_to "+",  new_build_result_path(build: build, ubuntu: ubuntu, openstack: openstack), class: 'btn btn-info'
+
+                N/A
+- if user_signed_in?
+  = link_to 'Edit', edit_job_matrix_path(@job_matrix)
+  \|
+= link_to 'Back', job_matrices_path

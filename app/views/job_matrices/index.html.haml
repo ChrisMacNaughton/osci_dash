@@ -1,0 +1,21 @@
+%h1 Listing job_matrices
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th
+      %th
+      %th
+
+  %tbody
+    - @job_matrices.each do |job_matrix|
+      %tr
+        %td= job_matrix.name
+        %td= link_to 'Show', job_matrix
+        %td= link_to 'Edit', edit_job_matrix_path(job_matrix)
+        %td= link_to 'Destroy', job_matrix, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+- if user_signed_in?
+  = link_to 'New Job matrix', new_job_matrix_path

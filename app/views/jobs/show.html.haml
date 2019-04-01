@@ -1,0 +1,24 @@
+= @job.to_json
+
+%p
+  %b Name:
+  = @job.name
+
+%table.table.table-sm.table-bordered
+  %thead
+    %tr
+
+  %tbody
+    - #"http://#{Rails.application.config_for(:uosci)['path']}:8080/job/#{job.name}/"
+
+    - @job.builds.order(build_number: :desc).limit(5).each do |build|
+      %tr
+        - Rails.application.config_for(:uosci)['supported_combinations'].each do |ubuntu, openstacks|
+          - openstacks.each do |openstack|
+            - this_build = build.build_results.find_by(ubuntu_release: ubuntu, openstack_release: openstack)
+            - if this_build
+
+              %td{class: this_build.passed ? "table-success" : "table-danger"}
+                =link_to "#{this_build.uos} - #{time_ago_in_words this_build.ran_at} ago", this_build.url
+
+= link_to 'Back', job_matrix_path(@job.job_matrix)

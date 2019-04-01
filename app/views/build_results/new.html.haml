@@ -1,0 +1,34 @@
+%h1 New Run
+.container
+  = form_for @build_result do |f|
+    - if @build_result.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@build_result.errors.count, "error")} prohibited this build result from being saved:"
+        %ul
+          - @build_result.errors.full_messages.each do |message|
+            %li= message
+    .form-check-inline
+      = f.check_box :passed, class: 'form-check-input'
+      = f.label :passed, class: 'form-check-label'
+
+    .form-group.row
+      = f.label :url, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = f.text_field :url, class: 'form-control'
+
+    .form-group.row
+      = f.label :ubuntu_release, 'Ubuntu', class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = f.text_field :ubuntu_release, class: 'form-control'
+
+    .form-group.row
+      = f.label :openstack_release, 'OpenStack', class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = f.text_field :openstack_release, class: 'form-control'
+
+    =f.hidden_field :build_id
+
+    .actions
+      = f.submit 'Save', class: 'btn btn-primary'
+
+= link_to 'Back', job_matrix_path(@job_matrix)

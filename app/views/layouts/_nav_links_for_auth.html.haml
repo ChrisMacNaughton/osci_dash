@@ -1,0 +1,6 @@
+- if user_signed_in?
+  = nav_link 'Edit Account', edit_user_registration_path
+  %li.nav-item= link_to 'Sign out', destroy_user_session_path, :method=>'delete', class: 'nav-link'
+- else
+  = nav_link 'Sign in', new_user_session_path
+  = nav_link 'Sign up', new_user_registration_path

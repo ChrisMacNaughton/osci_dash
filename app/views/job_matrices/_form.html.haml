@@ -1,0 +1,16 @@
+= form_for @job_matrix, class: 'form' do |f|
+  - if @job_matrix.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@job_matrix.errors.count, "error")} prohibited this job_matrix from being saved:"
+      %ul
+        - @job_matrix.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :filter
+    = f.text_field :filter, class: 'form-control'
+  .actions
+    = f.submit 'Save', class: 'btn btn-primary'

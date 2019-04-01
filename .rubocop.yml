@@ -2,7 +2,7 @@ Rails:
   Enabled: true
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 
 AllCops:
   Exclude:
@@ -10,6 +10,19 @@ AllCops:
     - db/schema.rb
     - bin/*
     - node_modules/**/*
+
+Metrics/AbcSize:
+  Exclude:
+    - app/controllers/build_results_controller.rb
+    - app/models/build.rb
+    - app/models/job_matrix.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - app/controllers/build_results_controller.rb
+    - app/models/build.rb
+    - app/models/job_matrix.rb
+    - app/models/build_result.rb
 
 Style/Documentation:
   Enabled: false

@@ -1,0 +1,9 @@
+%nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  = link_to "UOSCI Dashboard", root_path, class: 'navbar-brand'
+  %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
+    %span.navbar-toggler-icon
+  #navbarSupportedContent.collapse.navbar-collapse
+    %ul.navbar-nav.mr-auto= render 'layouts/navigation_links'
+    %ul.navbar-nav.ml-auto
+      = # render 'layouts/navigation_links_right'
+      = render 'layouts/nav_links_for_auth'

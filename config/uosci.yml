@@ -1,0 +1,26 @@
+default: &default
+  path: 10.245.162.58
+  supported_combinations:
+    trusty:
+    - mitaka
+    xenial:
+    - mitaka
+    - newton
+    - ocata
+    - pike
+    - queens
+    bionic:
+    - queens
+    - rocky
+    - stein
+    cosmic:
+    - rocky
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

@@ -31,6 +31,8 @@ class Build < ApplicationRecord
 
   after_create_commit :setup_build_results_async
 
+  scope :finished, -> { where.not(duration: [nil, 0.seconds]) }
+
   def setup_build_results_async
     BuildBuilderJob.perform_later id
   end
@@ -39,6 +41,10 @@ class Build < ApplicationRecord
     uosci_config = Rails.application.config_for(:uosci).deep_symbolize_keys
     client = JenkinsApi::Client.new(server_ip: uosci_config[:path])
     details = client.job.get_build_details(job.name, build_number)
+    if details['result'].nil?
+      BuildBuilderJob.set(wait: 10.minutes).perform_later id
+      return
+    end
     self.duration = "#{details['duration']} milliseconds"
     self.passed = details['result'] == 'SUCCESS'
     details['runs']&.each do |run|

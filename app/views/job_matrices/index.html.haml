@@ -1,20 +1,22 @@
-%h1 Listing job_matrices
+%h1 Matrices
 
-%table
+%table.table
   %thead
     %tr
       %th Name
-      %th
-      %th
-      %th
+      %th Passing
+      - if user_signed_in?
+        %th
+        %th
 
   %tbody
     - @job_matrices.each do |job_matrix|
-      %tr
-        %td= job_matrix.name
-        %td= link_to 'Show', job_matrix
-        %td= link_to 'Edit', edit_job_matrix_path(job_matrix)
-        %td= link_to 'Destroy', job_matrix, method: :delete, data: { confirm: 'Are you sure?' }
+      %tr{class: job_matrix.passing? ? "table-success" : "table-warning"}
+        %td= link_to job_matrix.name, job_matrix
+        %td= job_matrix.passing?
+        - if user_signed_in?
+          %td= link_to 'Edit', edit_job_matrix_path(job_matrix)
+          %td= link_to 'Destroy', job_matrix, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 - if user_signed_in?

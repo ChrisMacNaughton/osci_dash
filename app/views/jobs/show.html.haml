@@ -1,16 +1,10 @@
-= @job.to_json
-
-%p
-  %b Name:
-  = @job.name
+%h1= link_to @job.name, @job.url, target: '_blank'
 
 %table.table.table-sm.table-bordered
   %thead
     %tr
 
   %tbody
-    - #"http://#{Rails.application.config_for(:uosci)['path']}:8080/job/#{job.name}/"
-
     - @job.builds.order(build_number: :desc).limit(5).each do |build|
       %tr
         - Rails.application.config_for(:uosci)['supported_combinations'].each do |ubuntu, openstacks|

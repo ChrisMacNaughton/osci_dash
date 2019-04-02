@@ -28,7 +28,7 @@ class Job < ApplicationRecord
   after_create_commit :setup_builds_async
 
   def latest_build
-    builds.order(build_number: :desc).first
+    builds.finished.order(build_number: :desc).first
   end
 
   def setup_builds_async
@@ -44,7 +44,15 @@ class Job < ApplicationRecord
     builds
   end
 
+  def url
+    "http://#{Rails.application.config_for(:uosci)['path']}:8080/job/#{name}/"
+  end
+
   def passing?
-    builds.order(build_number: :desc).limit(1).pluck(:passed)[0]
+    latest_build.passed?
+  end
+
+  def builds?
+    !builds.finished.empty?
   end
 end

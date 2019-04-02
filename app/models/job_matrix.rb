@@ -18,6 +18,12 @@ class JobMatrix < ApplicationRecord
 
   after_create_commit :setup_jobs_async
 
+  def passing?
+    @passing ||= Build
+                 .where(job_id: Job.where(job_matrix_id: id).pluck(:id))
+                 .group(:job_id, :passed).pluck(:passed).all?
+  end
+
   def setup_jobs_async
     MatrixBuilderJob.perform_later id
   end
@@ -28,7 +34,7 @@ class JobMatrix < ApplicationRecord
     client.view.list_jobs(name).each do |job|
       if filter
         Job.where(job_matrix: self, name: job).first_or_create \
-          unless filter.nil?
+          unless job.match(filter).nil?
       else
         Job.where(job_matrix: self, name: job).first_or_create
       end

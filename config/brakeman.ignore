@@ -1,6 +1,25 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "d3e50715958801ff81e4c6d3219eef8731c5c9c18de26121a5de7a32cb6df65e",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/jobs/show.html.haml",
+      "line": 1,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Job.new(job_matrix_params).name, Job.new(job_matrix_params).url, :target => \"_blank\")",
+      "render_path": [{"type":"controller","class":"JobsController","method":"create","line":33,"file":"app/controllers/jobs_controller.rb","rendered":{"name":"jobs/show","file":"/home/chris/code/canonical/uosci_dash/app/views/jobs/show.html.haml"}}],
+      "location": {
+        "type": "template",
+        "template": "jobs/show"
+      },
+      "user_input": "Job.new(job_matrix_params).url",
+      "confidence": "Weak",
+      "note": "This URL comes back from Jenkins, and Jenkins is what we're linking to"
+    },
+    {
       "warning_type": "Redirect",
       "warning_code": 18,
       "fingerprint": "eadefbe5148785ad5ab64b87852ce467386592392a925207c928c3ba44442ee3",
@@ -21,6 +40,6 @@
       "note": "This redirect only comes from non user controller data'"
     }
   ],
-  "updated": "2019-04-01 15:24:25 +0200",
+  "updated": "2019-04-02 10:57:55 +0200",
   "brakeman_version": "4.5.0"
 }

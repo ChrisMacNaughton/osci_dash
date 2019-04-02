@@ -6,6 +6,6 @@ class MatrixBuilderJob < ApplicationJob
   def perform(matrix_id)
     # Do something later
     matrix = JobMatrix.find_by(id: matrix_id)
-    matrix&.setup_jobs
+    matrix.setup_jobs
   end
 end

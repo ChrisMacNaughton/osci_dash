@@ -7,6 +7,7 @@
 #  id                :uuid             not null, primary key
 #  duration          :interval
 #  manual            :boolean          default(FALSE)
+#  note              :text
 #  openstack_release :text
 #  passed            :boolean
 #  ran_at            :datetime
@@ -30,7 +31,7 @@
 
 class BuildResult < ApplicationRecord
   belongs_to :build
-
+  belongs_to :user, optional: true
   scope :recent_build_results, -> { where('ran_at > ?', 90.days.ago) }
 
   def uos

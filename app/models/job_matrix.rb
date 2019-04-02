@@ -34,7 +34,7 @@ class JobMatrix < ApplicationRecord
     client.view.list_jobs(name).each do |job|
       if filter
         Job.where(job_matrix: self, name: job).first_or_create \
-          unless job.match(filter).nil?
+          if job.match(filter).nil?
       else
         Job.where(job_matrix: self, name: job).first_or_create
       end

@@ -18,7 +18,7 @@
       - if build
         - build_results = @build_results[build.id].group_by{|a| [a.ubuntu_release, a.openstack_release]}
         %tr
-          %td{class: job_table_status(job)}
+          %td{class: @build_results[build.id].all?(&:passed) ? 'table-success' : 'table-danger'}
             - name = job.name
             - if @job_matrix.rename_filter
               -@job_matrix.rename_filter.split(';').each do |filter|

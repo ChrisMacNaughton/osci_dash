@@ -41,8 +41,12 @@ class JobMatrix < ApplicationRecord
     client = JenkinsApi::Client.new(server_ip: uosci_config[:path])
     client.view.list_jobs(name).each do |job|
       if filter
-        Job.where(job_matrix: self, name: job).first_or_create \
-          if job.match?(filter)
+        if job.match?(filter)
+          Rails.logger.debug("Skipping #{job} because it's matched by filter: #{filter}")
+        else
+          Job.where(job_matrix: self, name: job).first_or_create
+        end
+
       else
         Job.where(job_matrix: self, name: job).first_or_create
       end

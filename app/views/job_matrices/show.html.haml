@@ -16,9 +16,11 @@
     - for job in @job_matrix.jobs
       - build = @builds[job.id].try(:first)
       - if build
-        - build_results = @build_results[build.id].group_by{|a| [a.ubuntu_release, a.openstack_release]}
+        - build_results = @build_results[build.id] || []
+        - if build_results
+          - build_results = build_results.group_by{|a| [a.ubuntu_release, a.openstack_release]}
         %tr
-          %td{class: @build_results[build.id].all?(&:passed) ? 'table-success' : 'table-danger'}
+          %td{class: @build_results[build.id].try(:all?, &:passed) ? 'table-success' : 'table-danger'}
             - name = job.name
             - if @job_matrix.rename_filter
               -@job_matrix.rename_filter.split(';').each do |filter|

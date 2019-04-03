@@ -12,7 +12,12 @@ class JobMatricesController < ApplicationController
 
   # GET /job_matrices/1
   # GET /job_matrices/1.json
-  def show; end
+  def show
+    @builds = @job_matrix.latest_builds.group_by(&:job_id)
+    @build_results = BuildResult
+                     .where(build_id: @job_matrix.latest_builds.pluck(:id))
+                     .order(created_at: :desc).includes(:user).group_by(&:build_id)
+  end
 
   # GET /job_matrices/new
   def new

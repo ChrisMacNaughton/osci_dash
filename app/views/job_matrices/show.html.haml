@@ -14,8 +14,9 @@
 
   %tbody
     - for job in @job_matrix.jobs
-      - build = job.latest_build
+      - build = @builds[job.id].try(:first)
       - if build
+        - build_results = @build_results[build.id].group_by{|a| [a.ubuntu_release, a.openstack_release]}
         %tr
           %td{class: job_table_status(job)}
             - name = job.name
@@ -26,7 +27,8 @@
             = link_to fa_icon("external-link"), job.url, target: '_blank'
           - Rails.application.config_for(:uosci)['supported_combinations'].each do |ubuntu, openstacks|
             - openstacks.each do |openstack|
-              - this_build = build.build_results.where(ubuntu_release: ubuntu, openstack_release: openstack).order(created_at: :desc).first
+              - # this_build = build.build_results.where(ubuntu_release: ubuntu, openstack_release: openstack).order(created_at: :desc).first
+              - this_build = build_results[[ubuntu, openstack]].try(:first)
               - if this_build
                 %td{class: this_build.pending? ? 'table-warning' : this_build.passed ? "table-success" : "table-danger"}
                   .row

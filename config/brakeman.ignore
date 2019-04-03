@@ -1,6 +1,46 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "45626973e0fb13eb782605902b7a8b684e43b9c6d92da1ae78b70212ca068ddf",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/build_results_controller.rb",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(BuildResult.new(build_result_params).build.job.job_matrix, :notice => \"Build was successfully created.\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BuildResultsController",
+        "method": "create"
+      },
+      "user_input": "BuildResult.new(build_result_params).build.job.job_matrix",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "9a6e25fa4bad739f07a9f3502b8726690456133b8dec580613c6fd89935bbbde",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/build_results_controller.rb",
+      "line": 60,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(BuildResult.find(params[:id]).build.job.job_matrix, :notice => \"Result was successfully destroyed.\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BuildResultsController",
+        "method": "destroy"
+      },
+      "user_input": "BuildResult.find(params[:id]).build.job.job_matrix",
+      "confidence": "High",
+      "note": ""
+    },
+    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 4,
       "fingerprint": "d3e50715958801ff81e4c6d3219eef8731c5c9c18de26121a5de7a32cb6df65e",
@@ -18,28 +58,8 @@
       "user_input": "Job.new(job_matrix_params).url",
       "confidence": "Weak",
       "note": "This URL comes back from Jenkins, and Jenkins is what we're linking to"
-    },
-    {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "eadefbe5148785ad5ab64b87852ce467386592392a925207c928c3ba44442ee3",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/build_results_controller.rb",
-      "line": 24,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(BuildResult.new(job_matrix_params).build.job.job_matrix, :notice => \"Build was successfully created.\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "BuildResultsController",
-        "method": "create"
-      },
-      "user_input": "BuildResult.new(job_matrix_params).build.job.job_matrix",
-      "confidence": "High",
-      "note": "This redirect only comes from non user controller data'"
     }
   ],
-  "updated": "2019-04-02 10:57:55 +0200",
+  "updated": "2019-04-03 14:45:15 +0200",
   "brakeman_version": "4.5.0"
 }

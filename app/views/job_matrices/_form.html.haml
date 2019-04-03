@@ -12,5 +12,9 @@
   .form-group
     = f.label :filter
     = f.text_field :filter, class: 'form-control'
+
+  .form-group
+    = f.label :rename_filter
+    = f.text_field :rename_filter, class: 'form-control'
   .actions
     = f.submit 'Save', class: 'btn btn-primary'

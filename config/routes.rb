@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   resources :job_matrices
   resources :jobs, only: %i[index show]
-  resources :build_results, only: %i[new create]
+  resources :build_results
   devise_for :users
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'

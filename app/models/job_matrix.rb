@@ -4,11 +4,12 @@
 #
 # Table name: job_matrices
 #
-#  id         :uuid             not null, primary key
-#  filter     :text
-#  name       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :uuid             not null, primary key
+#  filter        :text
+#  name          :text
+#  rename_filter :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 
 require 'jenkins_api_client'

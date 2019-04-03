@@ -3,7 +3,7 @@
 module JobMatricesHelper
   def job_table_status(job)
     if job.builds?
-      job.passing? ? 'table-success' : 'table-danger'
+      passing_table_status job.passing?
     else
       'table-info'
     end

@@ -8,4 +8,8 @@ module ApplicationHelper
       link_to link_text, link_path, class: 'nav-link'
     end
   end
+
+  def passing_table_status(passing)
+    passing ? 'table-success' : 'table-danger'
+  end
 end

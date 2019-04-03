@@ -1,0 +1,24 @@
+%h1{class: @build_result.passed? ? 'alert-success' : 'alert-warning'}
+  - if @build_result.passed
+    = fa_icon :check
+  - else
+    = fa_icon :times
+  = @build_result.ubuntu_release
+  = @build_result.openstack_release
+  = @build_result.build.job.name
+
+=link_to "Back", @build_result.build.job.job_matrix
+- if user_signed_in?
+  |
+  =link_to "Edit", edit_build_result_path(@build_result)
+  - if @build_result.manual?
+    |
+    =link_to "Remove", @build_result, method: :delete, data: { confirm: 'Are you sure?' }
+%dl.row
+  %dt.col-sm-1 Status
+  %dd.col-sm-4= @build_result.status
+
+%h2 Notes
+
+%p= @build_result.note
+

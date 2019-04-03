@@ -71,6 +71,6 @@ class JobMatricesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def job_matrix_params
-    params.require(:job_matrix).permit(:name, :filter)
+    params.require(:job_matrix).permit(:name, :filter, :rename_filter)
   end
 end

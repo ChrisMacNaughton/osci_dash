@@ -1,7 +1,8 @@
 %p
   %b Name:
   = @job_matrix.name
-
+- if user_signed_in?
+  = link_to 'Edit', edit_job_matrix_path(@job_matrix)
 
 %table.table.table-sm.table-bordered
   %thead
@@ -9,7 +10,7 @@
       %td Spec
       - Rails.application.config_for(:uosci)['supported_combinations'].each do |ubuntu, openstacks|
         - openstacks.each do |openstack|
-          %td #{ubuntu}-#{openstack}
+          %td{style: 'min-width: 170px;'} #{ubuntu}-#{openstack}
 
   %tbody
     - for job in @job_matrix.jobs
@@ -17,25 +18,48 @@
       - if build
         %tr
           %td{class: job_table_status(job)}
-            = link_to job.name, job
+            - name = job.name
+            - if @job_matrix.rename_filter
+              -@job_matrix.rename_filter.split(';').each do |filter|
+                - name = name.gsub(filter, '')
+            = link_to name, job
             = link_to fa_icon("external-link"), job.url, target: '_blank'
           - Rails.application.config_for(:uosci)['supported_combinations'].each do |ubuntu, openstacks|
             - openstacks.each do |openstack|
               - this_build = build.build_results.where(ubuntu_release: ubuntu, openstack_release: openstack).order(created_at: :desc).first
               - if this_build
-                %td{class: this_build.passed ? "table-success" : "table-danger"}
-                  - if user_signed_in?
-                    .float-right
-                      = link_to "+",  new_build_result_path(build: build, ubuntu: ubuntu, openstack: openstack), class: 'btn btn-info'
-                  =link_to "#{time_ago_in_words this_build.ran_at} ago", this_build.url, target: '_blank'
-                  %br
-                  = distance_of_time_in_words this_build.duration
+                %td{class: this_build.pending? ? 'table-warning' : this_build.passed ? "table-success" : "table-danger"}
+                  .row
+                    .col-sm-1
+                      - if this_build.note
+                        %h2= fa_icon :info, title: this_build.note, data: { toggle: "tooltip", placement: "top" }
+                    .col-sm-7
+                      - if this_build.pending
+                        - if this_build.url
+                          = link_to this_build.user.username, this_build.url
+                        - else
+                          = this_build.user.username
+                        |
+                        = link_to "Edit", this_build
+                      - else
+                        .row
+                          = link_to fa_icon("external-link"), this_build.url, target: '_blank', style: 'padding-right: 5px;'
+                          = link_to "#{ this_build.ran_at.strftime("%d-%B") }", this_build
+                        .row
+                          = distance_of_time_in_words this_build.duration
+
+                    .col-sm-1
+                      - if user_signed_in?
+                        = link_to "+",  new_build_result_path(build: build, ubuntu: ubuntu, openstack: openstack), class: 'btn-sm btn-info'
               - else
                 %td{class: 'table-active'}
-                  - if user_signed_in?
-                    .float-right
-                      = link_to "+",  new_build_result_path(build: build, ubuntu: ubuntu, openstack: openstack), class: 'btn btn-info'
-                  N/A
+                  .row
+                    .col-sm-1
+                    .col-sm-7
+                      N/A
+                    .col-sm-1
+                      - if user_signed_in?
+                        = link_to "+",  new_build_result_path(build: build, ubuntu: ubuntu, openstack: openstack), class: 'btn-sm btn-info'
 - if user_signed_in?
   = link_to 'Edit', edit_job_matrix_path(@job_matrix)
   \|

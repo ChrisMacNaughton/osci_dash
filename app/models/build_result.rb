@@ -10,6 +10,7 @@
 #  note              :text
 #  openstack_release :text
 #  passed            :boolean
+#  pending           :boolean
 #  ran_at            :datetime
 #  ubuntu_release    :text
 #  url               :text
@@ -33,6 +34,14 @@ class BuildResult < ApplicationRecord
   belongs_to :build
   belongs_to :user, optional: true
   scope :recent_build_results, -> { where('ran_at > ?', 90.days.ago) }
+
+  def status
+    if passed.nil?
+      'Pending'
+    else
+      passed ? 'Passed' : 'Failed'
+    end
+  end
 
   def uos
     "#{ubuntu_release}-#{openstack_release}"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_02_114357) do
+ActiveRecord::Schema.define(version: 2019_04_03_123750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_114357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "note"
+    t.boolean "pending"
     t.index ["build_id"], name: "index_build_results_on_build_id"
     t.index ["user_id"], name: "index_build_results_on_user_id"
   end
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_114357) do
     t.text "filter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "rename_filter"
   end
 
   create_table "jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

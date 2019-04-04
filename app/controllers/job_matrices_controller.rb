@@ -16,6 +16,7 @@ class JobMatricesController < ApplicationController
     @builds = @job_matrix.latest_builds.group_by(&:job_id)
     @build_results = BuildResult
                      .where(build_id: @job_matrix.latest_builds.pluck(:id))
+                     .where(ubuntu_release: Rails.application.config_for(:uosci)['supported_combinations'].keys)
                      .order(created_at: :desc).includes(:user).group_by(&:build_id)
   end
 

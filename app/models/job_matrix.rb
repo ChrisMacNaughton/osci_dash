@@ -33,6 +33,7 @@ class JobMatrix < ApplicationRecord
     @latest_builds ||= Build
                        .where(job: Job.where(job_matrix: self))
                        .select('DISTINCT ON ("builds"."job_id") job_id, "builds".*')
+                       .where('EXISTS(SELECT true FROM build_results WHERE build_results.build_id = builds.id)')
                        .order(:job_id, build_number: :desc)
   end
 
